@@ -4,22 +4,32 @@ import axios from 'axios';
 
 export default class Result extends React.Component {
     state = {
-        resultData: {
-            "" : ""
-        }
+        resultData: []
     }
     componentDidMount() {
         axios.get(`http://localhost:8088/shopifyData`)
             .then(res => {
-                this.setState({resultData: res.data});
-                console.log(this.state.resultData, "object")
+                this.setState({resultData: res.data.products});
             })
     }
 
     render() {
+        console.log('data is',this.state.resultData);
         return (
             <div>
-               {this.state.resultData.products.map(v=>{console.log(v)})}
+               <table>
+                   <thead>
+                   <th>ID</th>
+                   </thead>
+                   <tbody>
+                       {this.state.resultData && this.state.resultData.map((product) => (
+                         <tr>
+                             <td>{product.id}</td>
+                         </tr>
+                       ))}
+
+                   </tbody>
+               </table>
             </div>
         )
     }
